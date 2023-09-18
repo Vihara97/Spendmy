@@ -10,7 +10,29 @@ import SwiftUI
 struct HomeView: View {
     @StateObject var expenseViewModel: ExpenseViewModel = .init()
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false){
+            VStack(spacing: 12){
+                HStack(spacing: 15){
+                    VStack(alignment: .leading, spacing: 4){
+                        Text("Welcome")
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.gray)
+                        Text("Spendmy")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    Button{
+                        
+                    } label : {
+                        
+                    }
+                }
+            }
+            .padding()
+        }
     }
 }
 
