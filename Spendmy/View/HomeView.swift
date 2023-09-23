@@ -26,18 +26,43 @@ struct HomeView: View {
                     
                     Button{
                         
-                    } label : {
-                        
+                    } label:{
+                        Image(systemName: "hexagon.fill")
+                            .foregroundColor(Color("Gray"))
+                            .frame(width: 40, height: 40)
                     }
                 }
+                ExpenseCardView()
             }
             .padding()
         }
+        .background(Color("BGColor"))
+        .ignoresSafeArea()
     }
+    
+    @ViewBuilder
+    func ExpenseCardView()-> some View{
+        GeometryReader{proxy in
+            RoundedRectangle(cornerRadius: 20, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/)
+                .fill(
+                    LinearGradient(gradient: Gradient(colors: [Color("NavyBlue"), Color("DarkPurple"), Color("LightPink")]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                )
+            VStack(spacing: 220){
+                Text(expenseViewModel.currentMonthDateString())
+                    .font(.callout)
+                    .fontWeight(.semibold)
+            }
+            .foregroundColor(.white)
+            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                }
+        .frame(height: 220)
+        .padding(.top)
+    }
+    
 }
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        ContentView()
     }
 }
