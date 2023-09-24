@@ -19,6 +19,7 @@ struct ExpenseModel: Identifiable,Hashable {
 enum ExpenseType: String{
     case income = "Income"
     case expense = "Expense"
+    case all = "All"
 }
 var sample_expenses: [ExpenseModel] = [
     ExpenseModel(remark: "Food", amount: 5700.00, date: Date(timeIntervalSince1970: 1652987245), type: .expense, color: "Green"),

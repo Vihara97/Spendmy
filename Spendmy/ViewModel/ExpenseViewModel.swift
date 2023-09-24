@@ -10,6 +10,8 @@ import SwiftUI
 
 class ExpenseViewModel: ObservableObject{
     //properties
+    @Published var expenses: [ExpenseModel] = sample_expenses
+    
     @Published var startDate: Date = Date()
     @Published var endDate: Date = Date()
     @Published var currentMonthStartDate: Date = Date()
@@ -20,11 +22,33 @@ class ExpenseViewModel: ObservableObject{
         
         startDate = calendar.date(from: dateComponents)!
         currentMonthStartDate = calendar.date(from: dateComponents)!
+        
     }
-    @Published var expenses: [ExpenseModel] = sample_expenses
-    
+
     //Fetch current month start date
     func currentMonthDateString()->String{
-        return "11/11/2023"
+        let dateFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MMM d, yyyy"
+            return formatter
+        }()
+        
+        return dateFormatter.string(from: currentMonthStartDate) + " - " + dateFormatter.string(from: Date())
+    }
+    
+    //Fetch current expenses string
+    func currentExpensesString(expenses: [ExpenseModel], type: ExpenseType = .all)-> String{
+        let currencyFormatter: NumberFormatter = {
+           let formatter = NumberFormatter()
+            formatter.numberStyle = .currency
+            return formatter
+        }()
+        
+        var expenseValue: Double = 0
+        expenseValue = expenses.reduce(0, {addToExpense, expense in
+            return addToExpense + (type == .all ? (expense.type == .income ? expense.amount : -expense.amount) : (type == expense.type ? expense.amount : 0))
+        })
+        
+        return currencyFormatter.string(from: .init(value: expenseValue)) ?? "$0.00"
     }
 }
