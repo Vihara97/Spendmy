@@ -38,17 +38,34 @@ class ExpenseViewModel: ObservableObject{
     
     //Fetch current expenses string
     func currentExpensesString(expenses: [ExpenseModel], type: ExpenseType = .all)-> String{
-        let currencyFormatter: NumberFormatter = {
-           let formatter = NumberFormatter()
-            formatter.numberStyle = .currency
-            return formatter
-        }()
-        
+
         var expenseValue: Double = 0
         expenseValue = expenses.reduce(0, {addToExpense, expense in
             return addToExpense + (type == .all ? (expense.type == .income ? expense.amount : -expense.amount) : (type == expense.type ? expense.amount : 0))
         })
         
-        return currencyFormatter.string(from: .init(value: expenseValue)) ?? "$0.00"
+        return ConvertExpenseNumberToPrice(value: expenseValue)
+    }
+    
+    //Convert expense numbers to price
+    func ConvertExpenseNumberToPrice(value: Double)-> String{
+        let currencyFormatter: NumberFormatter = {
+           let formatter = NumberFormatter()
+            formatter.numberStyle = .currency
+            formatter.currencySymbol = "Rs"
+            return formatter
+        }()
+        
+        return currencyFormatter.string(from: .init(value: value)) ?? "Rs0.00"
+    }
+    
+    func convertDateToString(date: Date)->String{
+        let dateFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MMM d, yyyy"
+            return formatter
+        }()
+        
+        return dateFormatter.string(from: date)
     }
 }

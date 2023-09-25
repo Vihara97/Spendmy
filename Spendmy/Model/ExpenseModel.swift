@@ -22,6 +22,6 @@ enum ExpenseType: String{
     case all = "All"
 }
 var sample_expenses: [ExpenseModel] = [
-    ExpenseModel(remark: "Food", amount: 5700.00, date: Date(timeIntervalSince1970: 1652987245), type: .expense, color: "Green"),
-    ExpenseModel(remark: "Uber cab", amount: 2350.00, date: Date(timeIntervalSince1970: 1652916245), type: .expense, color: "Yellow")
+    ExpenseModel(remark: "Food", amount: 5700.00, date: Date(timeIntervalSince1970: 1652987245), type: .expense, color: "green"),
+    ExpenseModel(remark: "Taxi", amount: 2350.00, date: Date(timeIntervalSince1970: 1652916245), type: .expense, color: "yellow")
 ]

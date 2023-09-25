@@ -33,6 +33,7 @@ struct HomeView: View {
                     }
                 }
                 ExpenseCardView()
+                TransactionsView()
             }
             .padding()
         }
@@ -40,6 +41,27 @@ struct HomeView: View {
         .ignoresSafeArea()
     }
     
+    //TransactionsView
+    @ViewBuilder
+    func TransactionsView()-> some View{
+        VStack{
+            Text("Transactions")
+                .font(.title2)
+                .bold()
+                .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.bottom)
+            
+            ForEach(expenseViewModel.expenses){expense in
+                TransactionCardView(expense: expense)
+                    .environmentObject(expenseViewModel)
+            }
+            .padding(.top)
+        }
+    }
+    
+        
+    //ExpenseCardView
     @ViewBuilder
     func ExpenseCardView()-> some View{
         GeometryReader{proxy in
