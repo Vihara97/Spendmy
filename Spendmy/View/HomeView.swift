@@ -44,7 +44,7 @@ struct HomeView: View {
     //TransactionsView
     @ViewBuilder
     func TransactionsView()-> some View{
-        VStack{
+        VStack(spacing: 10){
             Text("Transactions")
                 .font(.title2)
                 .bold()

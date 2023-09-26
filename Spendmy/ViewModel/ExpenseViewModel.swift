@@ -11,16 +11,12 @@ import SwiftUI
 class ExpenseViewModel: ObservableObject{
     //properties
     @Published var expenses: [ExpenseModel] = sample_expenses
-    
-    @Published var startDate: Date = Date()
-    @Published var endDate: Date = Date()
     @Published var currentMonthStartDate: Date = Date()
     
     init(){
         let calendar = Calendar.current
         let dateComponents = calendar.dateComponents([.year, .month], from: Date())
         
-        startDate = calendar.date(from: dateComponents)!
         currentMonthStartDate = calendar.date(from: dateComponents)!
         
     }
