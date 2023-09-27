@@ -16,8 +16,14 @@ class ExpenseViewModel: ObservableObject{
     @Published var endDate: Date = Date()
     
     @Published var tabName: ExpenseType = .income
-    
     @Published var showFilterView: Bool = false
+    
+    //new expense properties
+    @Published var addNewExpense: Bool = false
+    @Published var amount: String = ""
+    @Published var type: ExpenseType = .all
+    @Published var date: Date = Date()
+    @Published var remark: String = ""
     
     init(){
         let calendar = Calendar.current
