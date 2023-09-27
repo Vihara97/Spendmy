@@ -81,5 +81,18 @@ class ExpenseViewModel: ObservableObject{
         
         return currencyFormatter.string(from: .init(value: value)) ?? "Rs0.00"
     }
+    
+    //Clear all data
+    func clearData(){
+        date = Date()
+        type = .all
+        remark = ""
+        amount = ""
+    }
+    
+    //Save data
+    func saveData(){
+        print("save")
+    }
 
 }
