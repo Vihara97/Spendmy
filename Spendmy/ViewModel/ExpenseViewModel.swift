@@ -24,6 +24,7 @@ class ExpenseViewModel: ObservableObject{
     @Published var type: ExpenseType = .all
     @Published var date: Date = Date()
     @Published var remark: String = ""
+    @Published var budgetcategory: BudgetCategory = .other
     
     init(){
         let calendar = Calendar.current
@@ -88,6 +89,7 @@ class ExpenseViewModel: ObservableObject{
         type = .all
         remark = ""
         amount = ""
+        budgetcategory = .other
     }
     
     //Save data

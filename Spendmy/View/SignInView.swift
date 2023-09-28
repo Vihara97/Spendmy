@@ -8,14 +8,13 @@
 import SwiftUI
 
 struct SignInView: View {
+    @ObservedObject var userViewModel: UserViewModel
     @State private var email = ""
     @State private var password = ""
-    @State private var showLoginErrorAlert : Bool = false
-    @State private var isUserSignedIn : Bool = false
     
     var body: some View {
         
-        if isUserSignedIn{
+        if userViewModel.isUserSignedIn{
             HomeView()
         }
         else{
@@ -50,7 +49,7 @@ struct SignInView: View {
                 
                 //Email
                 Label{
-                    TextField("Email", text:$email)
+                    TextField("Email", text: $userViewModel.email)
                         .padding(.leading, 10)
                         .opacity(0.5)
                 } icon: {
@@ -69,7 +68,7 @@ struct SignInView: View {
 
                 //Password
                 Label{
-                    SecureField("Password", text:$password)
+                    SecureField("Password", text: $userViewModel.password)
                         .padding(.leading, 10)
                         .opacity(0.5)
                 } icon: {
@@ -87,7 +86,7 @@ struct SignInView: View {
                 .padding(.top, 25)
                 
                 Button(action: {
-                    login()
+                    userViewModel.login()
                 }, label: {
                     Text("Sign In")
                         .font(.title3)
@@ -103,9 +102,9 @@ struct SignInView: View {
                         .foregroundColor(.white)
                         .padding(.bottom, 10)
                 })
-                .disabled(email == "" || password == "")
-                .opacity(email == "" || password == "" ?  0.6 : 1)
-                .alert(isPresented: $showLoginErrorAlert){
+                .disabled(userViewModel.email.isEmpty || userViewModel.password.isEmpty)
+                .opacity(userViewModel.email.isEmpty || userViewModel.password.isEmpty ?  0.6 : 1)
+                .alert(isPresented: $userViewModel.showLoginErrorAlert){
                     Alert(title: Text("Alert"), message: Text("User Login failed."))
                 }
                 .padding(.top, 25)
@@ -118,15 +117,10 @@ struct SignInView: View {
             
         }
     }
-    
-    func login(){
-
-    }
-    
 }
 
 struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
-        SignInView()
+        SignInView(userViewModel: UserViewModel())
     }
 }

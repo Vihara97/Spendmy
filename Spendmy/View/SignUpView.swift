@@ -8,13 +8,10 @@
 import SwiftUI
 
 struct SignUpView: View {
-        @State private var email = ""
-        @State private var password = ""
-        @State private var confirmPassword = ""
-        @State private var showPasswordNotMatchingAlert : Bool = false
-        @State private var showSignUpSuccessAlert : Bool = false
-        @State private var showSignUpErrorAlert : Bool = false
-        @State private var showLoginErrorAlert : Bool = false
+        @ObservedObject var userViewModel: UserViewModel = .init()
+        @State private var email: String = ""
+        @State private var password: String = ""
+        @State private var confirmPassword: String = ""
         
         var body: some View {
             NavigationView{
@@ -43,7 +40,7 @@ struct SignUpView: View {
                         
                         //Email
                         Label{
-                            TextField("Email", text:$email)
+                            TextField("Email", text: $userViewModel.email)
                                 .padding(.leading, 10)
                                 .opacity(0.5)
                         } icon: {
@@ -62,7 +59,7 @@ struct SignUpView: View {
 
                         //Password
                         Label{
-                            SecureField("Password", text:$password)
+                            SecureField("Password", text: $userViewModel.password)
                                 .padding(.leading, 10)
                                 .opacity(0.5)
                         } icon: {
@@ -81,7 +78,7 @@ struct SignUpView: View {
                         
                         //Confirm Password
                         Label{
-                            SecureField("Confirm Password", text:$confirmPassword)
+                            SecureField("Confirm Password", text: $userViewModel.confirmPassword)
                                 .padding(.leading, 10)
                                 .opacity(0.5)
                         } icon: {
@@ -100,7 +97,7 @@ struct SignUpView: View {
                     
                         
                         Button(action: {
-                            register()
+                            userViewModel.register()
                         }, label: {
                             Text("Sign Up")
                                 .font(.title3)
@@ -116,40 +113,32 @@ struct SignUpView: View {
                                 .foregroundColor(.white)
                                 .padding(.bottom, 10)
                         })
-                        .disabled(email == "" || password == "" || confirmPassword == "")
-                        .opacity(email == "" || password == "" || confirmPassword == "" ?  0.6 : 1)
-                        .alert(isPresented: $showPasswordNotMatchingAlert){
+                        .disabled(userViewModel.email.isEmpty || userViewModel.password.isEmpty || userViewModel.confirmPassword.isEmpty)
+                        .opacity(userViewModel.email.isEmpty || userViewModel.password.isEmpty || userViewModel.confirmPassword.isEmpty ?  0.6 : 1)
+                        .alert(isPresented: $userViewModel.showPasswordNotMatchingAlert){
                             Alert(title: Text("Alert"), message: Text("Passwords are not same."))
                         }
-                        .alert(isPresented: $showSignUpSuccessAlert){
+                        .alert(isPresented: $userViewModel.showSignUpSuccessAlert){
                             Alert(title: Text("Alert"), message: Text("User registration successfull."))
                         }
-                        .alert(isPresented: $showSignUpErrorAlert){
+                        .alert(isPresented: $userViewModel.showSignUpErrorAlert){
                             Alert(title: Text("Alert"), message: Text("User registration failed."))
                         }
                         .padding(.top, 25)
                         .contentShape(Rectangle())
-                        
-
-                        NavigationLink(destination: SignInView()){
+                             
+                        NavigationLink(destination: SignInView(userViewModel: userViewModel)){
                             VStack{
                                 Text("Already have an account? Sign in")
                                     .font(.callout)
+                                    .offset(x: 50)
                             }
-                            .offset(x: 50)
                         }
-                    
                     }
                     .frame(width: 350)
-                    
                 }
                 .ignoresSafeArea()
             }
-     
-        }
-            
-        func register(){
-
         }
 }
 
@@ -168,6 +157,6 @@ extension View {
 
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
-        SignUpView()
+        ContentView()
     }
 }

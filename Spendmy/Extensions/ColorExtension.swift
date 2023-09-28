@@ -19,8 +19,11 @@ extension Color {
                 return .green
             case "Yellow":
                 return .yellow
-            case "Orange":
-                return .orange
+            case "Pink":
+                return .pink
+            case "Purple":
+                return .purple
+                
             default:
                 return .black
         }
