@@ -11,7 +11,7 @@ import Firebase
 
 class ExpenseViewModel: ObservableObject{
     //properties
-    @Published var expenses: [ExpenseModel] = sample_expenses
+    @Published var expenses: [ExpenseModel] = []
     
     @Published var currentMonthStartDate: Date = Date()
     @Published var startDate: Date = Date()
