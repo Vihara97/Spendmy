@@ -20,6 +20,7 @@ class UserViewModel: ObservableObject{
     @Published var showSignUpErrorAlert : Bool = false
     @Published var showLoginErrorAlert : Bool = false    
     @Published var isUserSignedIn : Bool = false
+
     
     init(){
     }

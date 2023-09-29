@@ -14,7 +14,6 @@ struct SignUpView: View {
         @State private var confirmPassword: String = ""
         
         var body: some View {
-            NavigationView{
                 ZStack{
                     Color("BGColor")
                     
@@ -63,7 +62,7 @@ struct SignUpView: View {
                                 .padding(.leading, 10)
                                 .opacity(0.5)
                         } icon: {
-                            Image(systemName: "person.fill.questionmark")
+                            Image(systemName: "lock")
                                 .font(.title3)
                                 .foregroundColor(Color("Gray"))
                         }
@@ -82,7 +81,7 @@ struct SignUpView: View {
                                 .padding(.leading, 10)
                                 .opacity(0.5)
                         } icon: {
-                            Image(systemName: "person.fill.questionmark")
+                            Image(systemName: "lock")
                                 .font(.title3)
                                 .foregroundColor(Color("Gray"))
                         }
@@ -127,7 +126,7 @@ struct SignUpView: View {
                         .padding(.top, 25)
                         .contentShape(Rectangle())
                              
-                        NavigationLink(destination: SignInView(userViewModel: userViewModel)){
+                        NavigationLink(destination: SignInView(userViewModel: userViewModel).navigationBarHidden(true)){
                             VStack{
                                 Text("Already have an account? Sign in")
                                     .font(.callout)
@@ -138,7 +137,6 @@ struct SignUpView: View {
                     .frame(width: 350)
                 }
                 .ignoresSafeArea()
-            }
         }
 }
 

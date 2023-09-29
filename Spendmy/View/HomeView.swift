@@ -22,7 +22,9 @@ struct HomeView: View {
                 .frame(width: 55, height: 55)
                 .background(
                     Circle()
-                        .fill(                        LinearGradient(gradient: Gradient(colors: [Color("NavyBlue"), Color("DarkPurple"), Color("LightPink")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                        .fill(
+                            LinearGradient(gradient: Gradient(colors: [Color("NavyBlue"), Color("DarkPurple"), Color("LightPink")]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                        )
                 )
         })
         .shadow(color: Color(/*@START_MENU_TOKEN@*/.black/*@END_MENU_TOKEN@*/).opacity(0.1), radius: 5, x: 5, y: 5)
@@ -30,45 +32,46 @@ struct HomeView: View {
     }
     
     var body: some View {
-        ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false){
-            VStack(spacing: 12){
-                HStack(spacing: 15){
-                    VStack(alignment: .leading, spacing: 4){
-                        Text("Welcome")
-                            .font(.caption)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.gray)
-                        Text("Spendmy")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    NavigationLink(
-                        destination: FilteredDetailView()
-                            .environmentObject(expenseViewModel),
-                        label: {
-                            Image(systemName: "hexagon.fill")
-                                .foregroundColor(Color("Gray"))
-                                .frame(width: 40, height: 40)
-                        })
+            ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false){
+                VStack(spacing: 12){
+                    HStack(spacing: 15){
+                        VStack(alignment: .leading, spacing: 4){
+                            Text("Welcome")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.gray)
+                            Text("Spendmy")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        NavigationLink(
+                            destination: FilteredDetailView()
+                                .environmentObject(expenseViewModel),
+                            label: {
+                                Image(systemName: "arrow.right.doc.on.clipboard")
+                                    .foregroundColor(Color("Gray"))
+                                    .frame(width: 40, height: 40)
+                            })
 
+                    }
+                    ExpenseCardView()
+                        .environmentObject(expenseViewModel)
+                    TransactionsView()
                 }
-                ExpenseCardView()
-                    .environmentObject(expenseViewModel)
-                TransactionsView()
+                .padding()
             }
-            .padding()
-        }
-        .background(Color("BGColor"))
-        .ignoresSafeArea()
-        .fullScreenCover(isPresented: $expenseViewModel.addNewExpense){
-            expenseViewModel.clearData()
-        } content: {
-            AddExpenseView()
-                .environmentObject(expenseViewModel)
-        }
-        .overlay(AddExpenseButtonView(), alignment: .bottomTrailing)
+            .background(Color("BGColor"))
+            .ignoresSafeArea()
+            .fullScreenCover(isPresented: $expenseViewModel.addNewExpense){
+                expenseViewModel.clearData()
+            } content: {
+                AddExpenseView()
+                    .environmentObject(expenseViewModel)
+            }
+            .overlay(AddExpenseButtonView(), alignment: .bottomTrailing)
+
     }
     
     

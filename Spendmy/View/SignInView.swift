@@ -15,7 +15,7 @@ struct SignInView: View {
     var body: some View {
         
         if userViewModel.isUserSignedIn{
-            HomeView()
+            HomeView().navigationBarHidden(true)
         }
         else{
             content
@@ -40,7 +40,7 @@ struct SignInView: View {
                     .foregroundColor(.black)
                     .font(.title)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                    .offset(y: -100)
+                    .offset(y: -50)
                 
                 Image("Budget-PNG-Pic")
                     .resizable()
@@ -72,7 +72,7 @@ struct SignInView: View {
                         .padding(.leading, 10)
                         .opacity(0.5)
                 } icon: {
-                    Image(systemName: "person.fill.questionmark")
+                    Image(systemName: "lock")
                         .font(.title3)
                         .foregroundColor(Color("Gray"))
                 }
@@ -111,6 +111,7 @@ struct SignInView: View {
                 .contentShape(Rectangle())
             }
             .frame(width: 350)
+            .offset(y: -70)
             .onAppear{
 
             }

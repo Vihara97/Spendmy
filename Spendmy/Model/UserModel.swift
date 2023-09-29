@@ -6,11 +6,14 @@
 //
 
 import Foundation
+import SwiftUI
 
-struct User : Identifiable {
-    let id = UUID()
-    let email: String
-    let password: String
-    let confirmPassword: String
+struct UserModel : Identifiable,Hashable {
+    var id = UUID()
+    var email: String
+    var password: String
+    var confirmPassword: String
     
 }
+var sample_user: UserModel = UserModel(email: "test@gmail.com", password: "123", confirmPassword: "123")
+
