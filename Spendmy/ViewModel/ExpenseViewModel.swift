@@ -19,6 +19,8 @@ class ExpenseViewModel: ObservableObject{
     
     @Published var tabName: ExpenseType = .income
     @Published var showFilterView: Bool = false
+    @Published var showSuccessAlert : Bool = false
+    @Published var showErrorAlert : Bool = false
     
     //new expense properties
     @Published var addNewExpense: Bool = false
@@ -30,44 +32,8 @@ class ExpenseViewModel: ObservableObject{
     
     
     init(){
-        //get a reference to the db
-        let db = Firestore.firestore()
         
-        //for fetching date string
-        var fetchedDate: Date = Date()
-        
-        //read documents
-        db.collection("Expenses").getDocuments { snapshot, error in
-            if error == nil {
-                        
-                if let snapshot = snapshot{
-                            
-                    DispatchQueue.main.async {
-                        self.expenses = snapshot.documents.map { doc in
-                            
-                            if let dateString = doc["date"] as? String {
-                                        // Convert the dateString to a Date object
-                                        let dateFormatter = DateFormatter()
-                                        dateFormatter.dateFormat = "dd/MM/yyyy" //Firestore date format
-                                fetchedDate = dateFormatter.date(from: dateString) ?? Date()
-                            }
-                            
-                            return ExpenseModel(remark: doc["remark"] as? String ?? "",
-                                                    amount: doc["amount"] as? Double ?? 0.00,
-                                                    date: fetchedDate,
-                                                    type: ExpenseType(rawValue: doc["type"] as? String ?? "") ?? .all,
-                                                    budgetcategory: BudgetCategory(rawValue: doc["budgetcategory"] as? String ?? "") ?? .other,
-                                                    color: doc["color"] as? String ?? ""
-                                                )
-                        }
-                    }
-                            
-                }
-            }
-            else{
-                print("error occured while fetching data")
-            }
-        }
+        fetchData()
         
         //setup calendar date
         let calendar = Calendar.current
@@ -124,6 +90,48 @@ class ExpenseViewModel: ObservableObject{
         return currencyFormatter.string(from: .init(value: value)) ?? "Rs0.00"
     }
     
+    //Fetch data
+    func fetchData(){
+        //get a reference to the db
+        let db = Firestore.firestore()
+        
+        //for fetching date string
+        var fetchedDate: Date = Date()
+        
+        //read documents
+        db.collection("Expenses").getDocuments { snapshot, error in
+            if error == nil {
+                        
+                if let snapshot = snapshot{
+                            
+                    DispatchQueue.main.async {
+                        self.expenses = snapshot.documents.map { doc in
+                            
+                            if let dateString = doc["date"] as? String {
+                                        // Convert the dateString to a Date object
+                                        let dateFormatter = DateFormatter()
+                                        dateFormatter.dateFormat = "dd/MM/yyyy" //Firestore date format
+                                fetchedDate = dateFormatter.date(from: dateString) ?? Date()
+                            }
+                            
+                            return ExpenseModel(remark: doc["remark"] as? String ?? "",
+                                                amount: doc["amount"] as? Double ?? 0.00,
+                                                    date: fetchedDate,
+                                                    type: ExpenseType(rawValue: doc["type"] as? String ?? "") ?? .all,
+                                                    budgetcategory: BudgetCategory(rawValue: doc["budgetcategory"] as? String ?? "") ?? .other,
+                                                    color: doc["color"] as? String ?? ""
+                                                )
+                        }
+                    }
+                            
+                }
+            }
+            else{
+                print("error occured while fetching data")
+            }
+        }
+    }
+    
     //Save data
     func saveData(newExpense: ExpenseViewModel){
         //get a reference to the db
@@ -156,16 +164,18 @@ class ExpenseViewModel: ObservableObject{
         //add documents to db collection
         db.collection("Expenses").addDocument(
             data: ["remark": newExpense.remark,
-                   "amount": newExpense.amount,
+                   "amount": Double(newExpense.amount) ?? 0.0,
                    "date": saveDate,
                    "type": newExpense.type.rawValue,
                    "budgetcategory": newExpense.budgetcategory.rawValue,
                    "color": saveColor])
         { error in
             if error == nil {
+                self.showSuccessAlert.toggle()
                 print("data saved successfully")
             }
             else{
+                self.showErrorAlert.toggle()
                 print("error occured while saving data")
             }
         }

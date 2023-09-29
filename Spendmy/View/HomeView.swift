@@ -54,6 +54,15 @@ struct HomeView: View {
                                     .foregroundColor(Color("Gray"))
                                     .frame(width: 40, height: 40)
                             })
+                        
+                        NavigationLink(
+                            destination: BudgetCategoryChartView()
+                                .environmentObject(expenseViewModel),
+                            label: {
+                                Image(systemName: "chart.pie.fill")
+                                    .foregroundColor(Color("Gray"))
+                                    .frame(width: 40, height: 40)
+                            })
 
                     }
                     ExpenseCardView()
@@ -71,6 +80,8 @@ struct HomeView: View {
                     .environmentObject(expenseViewModel)
             }
             .overlay(AddExpenseButtonView(), alignment: .bottomTrailing)
+        
+
 
     }
     
